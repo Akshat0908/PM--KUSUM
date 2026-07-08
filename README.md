@@ -1,43 +1,40 @@
 # PM Kusum Document Portal
 
-Pure static React app. No backend. Leads POST directly to a Google Apps Script Web App which writes rows to a Google Sheet. Payment happens on an external Razorpay Payment Page.
+Pure static React app. No backend, no database.
+
+**Flow:** Instagram Reel → Landing → Lead Form → POST directly to Google Apps Script → row appended to Google Sheet → user redirected to Razorpay Payment Page. Manual WhatsApp/email delivery after payment verification.
+
+## Structure
+```
+/
+└── frontend/          ← Vercel root directory
+    ├── src/
+    ├── public/
+    ├── package.json
+    └── vercel.json    ← SPA fallback + cache headers
+```
 
 ## Local dev
 ```bash
-cd frontend && yarn && yarn start
+cd frontend
+yarn
+yarn start
 ```
 
-## Environment variables (all optional — sensible defaults are baked in)
-Create `/app/frontend/.env` (or set on Vercel):
-```
-REACT_APP_GOOGLE_SHEETS_WEBHOOK_URL=https://script.google.com/macros/s/AKfycb.../exec
-REACT_APP_WEBHOOK_SECRET=some-long-random-string
-REACT_APP_PAYMENT_PAGE_URL=https://rzp.io/rzp/pm-kusum-kit
-REACT_APP_SUPPORT_WHATSAPP=9251002004
-```
-
-## Deploy to Vercel (2 minutes)
+## Deploy to Vercel
 1. Push this repo to GitHub.
-2. On vercel.com → New Project → Import your repo.
+2. vercel.com → **New Project** → import the repo.
 3. **Root Directory:** `frontend`
-4. **Framework Preset:** Create React App (auto-detected)
-5. **Build Command:** `yarn build`  ·  **Output Directory:** `build`
-6. Add the four env vars above under Project → Settings → Environment Variables.
-7. Deploy. `vercel.json` in `/frontend` gives you SPA fallback (`/confirm` works on refresh).
+4. Framework preset: **Create React App** (auto-detected). Build: `yarn build`. Output: `build`.
+5. Add env vars (Project → Settings → Environment Variables):
+   - `REACT_APP_GOOGLE_SHEETS_WEBHOOK_URL` — your Apps Script Web App URL
+   - `REACT_APP_WEBHOOK_SECRET` — long random string (also set in your Apps Script `SECRET`)
+   - `REACT_APP_PAYMENT_PAGE_URL` — e.g. `https://rzp.io/rzp/pm-kusum-kit`
+   - `REACT_APP_SUPPORT_WHATSAPP` — e.g. `9251002004`
+6. Deploy.
 
-## Apps Script — add a shared-secret check
-The frontend now sends `?key=<REACT_APP_WEBHOOK_SECRET>` and includes `_secret` in the body. Add to your `Code.gs`:
-```js
-const SECRET = "some-long-random-string"; // must match REACT_APP_WEBHOOK_SECRET
-function doPost(e){
-  const key = (e.parameter && e.parameter.key) || "";
-  const body = JSON.parse(e.postData.contents || "{}");
-  if (key !== SECRET && body._secret !== SECRET) {
-    return ContentService.createTextOutput(JSON.stringify({ok:false,error:"forbidden"})).setMimeType(ContentService.MimeType.JSON);
-  }
-  // ... rest of the append logic ...
-}
-```
+## Google Apps Script
+Code lives in `/google_apps_script/Code.gs`. Deploy it as a Web App (Execute as: Me, Access: Anyone) and paste the resulting URL into `REACT_APP_GOOGLE_SHEETS_WEBHOOK_URL`. Add the shared-secret check at the top of `doPost(e)` using the value you set in `REACT_APP_WEBHOOK_SECRET`.
 
 ## Failure safety
-If the webhook is unreachable, the lead payload is queued to `localStorage` (`pmk_pending_leads`) and the user gets a WhatsApp fallback CTA. No lead is silently lost.
+If the Sheets webhook is unreachable, the lead payload is queued to `localStorage` (`pmk_pending_leads`) and the user is shown a WhatsApp fallback CTA with their details pre-filled. No lead is silently lost.
