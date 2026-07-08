@@ -2,7 +2,7 @@ import "@/App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Toaster } from "sonner";
 import LandingPage from "@/pages/LandingPage";
-import ThankYouPage from "@/pages/ThankYouPage";
+import ConfirmationPage from "@/pages/ConfirmationPage";
 
 function App() {
   return (
@@ -11,7 +11,7 @@ function App() {
         <Toaster position="top-center" richColors closeButton />
         <Routes>
           <Route path="/" element={<LandingPage />} />
-          <Route path="/thank-you" element={<ThankYouPage />} />
+          <Route path="/confirm" element={<ConfirmationPage />} />
         </Routes>
       </BrowserRouter>
     </div>

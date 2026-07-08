@@ -1,12 +1,13 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { Loader2, Lock, ShieldCheck, Sparkles, ArrowRight } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { createLead } from "@/lib/api";
-import { PAYMENT_PAGE_URL, REDIRECT_DELAY_MS, PRODUCT_PRICE_INR } from "@/lib/config";
+import { PRODUCT_PRICE_INR } from "@/lib/config";
 
 const STATES = ["Andhra Pradesh","Arunachal Pradesh","Assam","Bihar","Chhattisgarh","Goa","Gujarat","Haryana","Himachal Pradesh","Jharkhand","Karnataka","Kerala","Madhya Pradesh","Maharashtra","Manipur","Meghalaya","Mizoram","Nagaland","Odisha","Punjab","Rajasthan","Sikkim","Tamil Nadu","Telangana","Tripura","Uttar Pradesh","Uttarakhand","West Bengal","Delhi","Jammu and Kashmir","Ladakh","Puducherry","Chandigarh","Andaman and Nicobar Islands","Dadra and Nagar Haveli and Daman and Diu","Lakshadweep"];
 
@@ -22,6 +23,7 @@ export default function LeadForm() {
   const [submitOnceGuard, setSubmitOnceGuard] = useState(false);
   // Very small spam guard: hidden honeypot field. Bots fill everything.
   const [website, setWebsite] = useState("");
+  const navigate = useNavigate();
 
   const update = (k, v) => {
     setForm((f) => ({ ...f, [k]: v }));
@@ -53,17 +55,16 @@ export default function LeadForm() {
     setLoading(true);
     try {
       await createLead(form);
-      // Store lead intent for the Thank You page context
+      // Store lead intent for the confirmation page context
       try { sessionStorage.setItem("pmk_lead", JSON.stringify({ name: form.full_name, mobile: form.mobile, ts: Date.now() })); } catch (_) {}
 
       setLoading(false);
       setRedirecting(true);
-      // Show "Redirecting…" for a beat, then hop to Razorpay Payment Page.
-      // Open thank-you page in same tab AFTER we send them to Razorpay in a new tab? Simpler UX:
-      // navigate main tab straight to Razorpay Payment Page.
+      // Give a smooth confirmation beat, then move to the confirmation page.
+      // The confirmation page owns the "Proceed to Secure Payment" step.
       setTimeout(() => {
-        window.location.href = PAYMENT_PAGE_URL;
-      }, REDIRECT_DELAY_MS);
+        navigate("/confirm");
+      }, 900);
     } catch (err) {
       const msg = err?.response?.data?.detail || "Something went wrong. Please try again.";
       toast.error(typeof msg === "string" ? msg : "Please check your details");
@@ -142,9 +143,9 @@ export default function LeadForm() {
             {loading ? (
               <><Loader2 className="w-4 h-4 animate-spin" /> Saving your details…</>
             ) : redirecting ? (
-              <><Loader2 className="w-4 h-4 animate-spin" /> Redirecting to secure payment…</>
+              <><Loader2 className="w-4 h-4 animate-spin" /> Preparing your kit…</>
             ) : (
-              <><Lock className="w-4 h-4" strokeWidth={2} /> Continue to Payment · ₹{PRODUCT_PRICE_INR} <ArrowRight className="w-4 h-4" /></>
+              <><Lock className="w-4 h-4" strokeWidth={2} /> Continue · ₹{PRODUCT_PRICE_INR} <ArrowRight className="w-4 h-4" /></>
             )}
           </button>
 
@@ -173,10 +174,10 @@ export default function LeadForm() {
               <div className="mx-auto w-16 h-16 rounded-full bg-brand-green/10 flex items-center justify-center mb-5">
                 <Loader2 className="w-8 h-8 text-brand-green animate-spin" strokeWidth={1.75} />
               </div>
-              <h3 className="font-heading text-xl font-semibold text-brand-ink">Redirecting you to secure payment…</h3>
-              <p className="mt-2 text-sm text-brand-slate leading-relaxed">Please do not close this tab. You&apos;ll land on the Razorpay Payment Page in a moment.</p>
+              <h3 className="font-heading text-xl font-semibold text-brand-ink">Saving your details…</h3>
+              <p className="mt-2 text-sm text-brand-slate leading-relaxed">Please wait a moment. We&apos;re preparing the next step for you.</p>
               <div className="mt-6 flex items-center justify-center gap-2 text-[11px] text-brand-slate">
-                <ShieldCheck className="w-3.5 h-3.5 text-brand-green" strokeWidth={1.75} /> Powered by Razorpay
+                <ShieldCheck className="w-3.5 h-3.5 text-brand-green" strokeWidth={1.75} /> Your data is secure
               </div>
             </motion.div>
           </motion.div>
