@@ -1,11 +1,10 @@
-from fastapi import FastAPI, APIRouter, Request
+from fastapi import FastAPI, APIRouter, HTTPException, Request
 from dotenv import load_dotenv
 from starlette.middleware.cors import CORSMiddleware
 from motor.motor_asyncio import AsyncIOMotorClient
 import os
 import re
 import logging
-import asyncio
 from pathlib import Path
 from pydantic import BaseModel, Field, field_validator
 from typing import Optional
@@ -68,15 +67,31 @@ def now_iso():
     return datetime.now(timezone.utc).isoformat()
 
 
-async def forward_to_sheets(row: dict):
-    """Fire-and-forget POST to Google Apps Script Web App. Silent if URL missing."""
+async def forward_to_sheets(row: dict) -> bool:
+    """POST to Google Apps Script Web App. Returns True on success, False on failure.
+    Returns True immediately if webhook URL is not configured (dev mode)."""
     if not GOOGLE_SHEETS_WEBHOOK_URL:
-        return
+        logger.info("Sheets webhook not configured — skipping (dev mode)")
+        return True
     try:
-        async with httpx.AsyncClient(timeout=8.0) as client:
-            await client.post(GOOGLE_SHEETS_WEBHOOK_URL, json=row)
+        # Apps Script Web Apps 302-redirect to script.googleusercontent.com — follow it.
+        async with httpx.AsyncClient(timeout=12.0, follow_redirects=True) as client:
+            resp = await client.post(GOOGLE_SHEETS_WEBHOOK_URL, json=row)
+            if resp.status_code >= 400:
+                logger.warning(f"Sheets webhook returned {resp.status_code}: {resp.text[:300]}")
+                return False
+            # Apps Script returns JSON like {"ok": true}; if body is not JSON, still trust 200.
+            try:
+                data = resp.json()
+                if isinstance(data, dict) and data.get("ok") is False:
+                    logger.warning(f"Sheets webhook reported failure: {data}")
+                    return False
+            except Exception:
+                pass
+            return True
     except Exception as e:
-        logger.warning(f"Sheets webhook failed: {e}")
+        logger.warning(f"Sheets webhook error: {e}")
+        return False
 
 
 # ---------- Routes ----------
@@ -116,15 +131,15 @@ async def create_lead(lead: LeadCreate, request: Request):
         "payment_status": "Pending",
         "ip": ip,
         "user_agent": user_agent,
+        "sheets_synced": False,
     }
-    await db.leads.insert_one(doc)
 
-    # Fire-and-forget forward to Google Sheets (ordered payload matching required columns)
+    # Payload for Google Sheets — column order matches the required schema.
     sheet_row = {
         "Timestamp": created_at,
-        "Name": doc["full_name"],
-        "Phone": doc["mobile"],
-        "WhatsApp": doc["whatsapp"],
+        "Full Name": doc["full_name"],
+        "Mobile Number": doc["mobile"],
+        "WhatsApp Number": doc["whatsapp"],
         "Email": doc["email"],
         "State": doc["state"],
         "District": doc["district"],
@@ -132,7 +147,16 @@ async def create_lead(lead: LeadCreate, request: Request):
         "Lead Source": doc["lead_source"],
         "Payment Status": doc["payment_status"],
     }
-    asyncio.create_task(forward_to_sheets(sheet_row))
+
+    # BLOCKING sync — must succeed before we allow the redirect on the frontend.
+    sheets_ok = await forward_to_sheets(sheet_row)
+    if not sheets_ok:
+        # Do NOT save the lead to Mongo either — the user requirement is:
+        # "Do not redirect the customer unless the lead has been successfully saved."
+        raise HTTPException(status_code=502, detail="Unable to save your details. Please try again.")
+
+    doc["sheets_synced"] = True
+    await db.leads.insert_one(doc)
 
     return {"lead_id": lead_id, "ok": True}
 

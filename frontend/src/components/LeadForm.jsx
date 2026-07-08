@@ -66,9 +66,12 @@ export default function LeadForm() {
         navigate("/confirm");
       }, 900);
     } catch (err) {
-      const msg = err?.response?.data?.detail || "Something went wrong. Please try again.";
-      toast.error(typeof msg === "string" ? msg : "Please check your details");
+      // Backend returns 502 with detail "Unable to save your details. Please try again."
+      // when Google Sheets sync fails. Surface it verbatim to the user.
+      const msg = err?.response?.data?.detail || "Unable to save your details. Please try again.";
+      toast.error(typeof msg === "string" ? msg : "Unable to save your details. Please try again.");
       setLoading(false);
+      setRedirecting(false);
       setTimeout(() => setSubmitOnceGuard(false), 1500);
     }
   };
