@@ -1,0 +1,158 @@
+{
+  "project_info": {
+    "name": "PM Kusum Document Portal",
+    "target_audience": "Farmers, Mobile-First, Instagram Reel Traffic",
+    "theme": "light",
+    "archetype": "Fintech Trust (Archetype 4) merged with Organic & Earthy (Archetype 1) for agriculture. Razorpay/Groww inspired.",
+    "core_vibe": "Trustworthy, Premium, Frictionless, Apple-like polish, Highly Accessible"
+  },
+  "colors": {
+    "primary": {
+      "green": "#16A34A",
+      "green_hover": "#15803d",
+      "blue": "#2563EB",
+      "blue_hover": "#1d4ed8"
+    },
+    "accent": {
+      "yellow": "#FBBF24"
+    },
+    "background": {
+      "base": "#FFFFFF",
+      "subtle": "#F8FAFC",
+      "card": "#FFFFFF"
+    },
+    "text": {
+      "primary": "#0F172A",
+      "secondary": "#475569",
+      "tertiary": "#94A3B8"
+    },
+    "border": {
+      "light": "#E2E8F0",
+      "focus": "#2563EB"
+    }
+  },
+  "typography": {
+    "fonts": {
+      "heading": "Poppins, sans-serif",
+      "body": "Inter, sans-serif"
+    },
+    "scale": {
+      "h1": "text-4xl sm:text-5xl font-bold tracking-tight text-[#0F172A] leading-tight",
+      "h2": "text-2xl sm:text-3xl font-semibold tracking-tight text-[#0F172A]",
+      "h3": "text-xl font-medium text-[#0F172A]",
+      "body": "text-base text-[#475569] leading-relaxed",
+      "small": "text-sm text-[#64748B]",
+      "label": "text-xs font-semibold tracking-wider uppercase text-[#94A3B8]"
+    },
+    "anti_ai_rules": "Do not use Inter for headings. Use Poppins to give a friendly, premium, and trustworthy feel. Never use text larger than 5xl on mobile."
+  },
+  "layout_and_spacing": {
+    "container": "max-w-5xl mx-auto px-4 sm:px-6 lg:px-8",
+    "section_gap": "py-16 sm:py-24",
+    "element_gap": "gap-6 sm:gap-8",
+    "card_padding": "p-6 sm:p-8",
+    "border_radius": {
+      "card": "rounded-2xl sm:rounded-3xl",
+      "button": "rounded-full",
+      "input": "rounded-xl"
+    },
+    "shadows": {
+      "soft_card": "shadow-[0_8px_30px_rgb(0,0,0,0.04)]",
+      "floating_nav": "shadow-[0_4px_20px_rgb(0,0,0,0.08)]",
+      "button_glow": "shadow-[0_4px_14px_0_rgb(22,163,74,0.39)]"
+    },
+    "mobile_first_rules": "Stack all grids to 1 column on mobile. Use max-h-[60vh] for hero images on mobile. Ensure CTA is sticky or always within thumb reach."
+  },
+  "components": {
+    "buttons": {
+      "primary": "bg-[#16A34A] hover:bg-[#15803d] text-white font-medium px-8 py-4 rounded-full transition-all duration-200 active:scale-95 flex items-center justify-center gap-2",
+      "secondary": "bg-[#E0F2FE] hover:bg-[#bae6fd] text-[#2563EB] font-medium px-8 py-4 rounded-full transition-all duration-200 active:scale-95"
+    },
+    "cards": {
+      "base": "bg-white border border-[#E2E8F0] rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.04)] p-6 sm:p-8 transition-transform duration-300 hover:-translate-y-1"
+    },
+    "inputs": {
+      "text": "w-full bg-[#F8FAFC] border border-[#E2E8F0] rounded-xl px-4 py-3.5 text-[#0F172A] focus:outline-none focus:ring-2 focus:ring-[#2563EB]/20 focus:border-[#2563EB] transition-all"
+    },
+    "icons": {
+      "library": "lucide-react",
+      "style": "stroke-[1.5] text-[#2563EB] or text-[#16A34A] depending on context. Avoid heavy solid icons."
+    }
+  },
+  "motion_and_interaction": {
+    "library": "framer-motion",
+    "page_load": "Fade up with y: 20, opacity: 0 to 1, duration: 0.5s, ease: 'easeOut'",
+    "stagger_lists": "staggerChildren: 0.1 for timeline and features list",
+    "micro_interactions": "Buttons shrink slightly on tap (scale: 0.97). Cards lift on hover (y: -4px).",
+    "success_animation": "Use a subtle scale-in pop with a green checkmark on the Success Page."
+  },
+  "page_sections": {
+    "hero": {
+      "layout": "2-column on desktop, stacked on mobile. Text on left/top, Image on right/bottom.",
+      "content": "Value-driven headline addressing the pain point. Primary CTA 'Get Your PM Kusum Kit - ₹299'. Subtext 'Instant PDF Download'.",
+      "visuals": "Farmer with solar panels illustration/photo. Trust badges (Secure Payment, Instant Access) under CTA."
+    },
+    "benefits": {
+      "layout": "Bento grid or 2x2 grid.",
+      "content": "4 cards highlighting time-saving, accuracy, easy-to-understand language, and official format adherence."
+    },
+    "whats_included": {
+      "layout": "Clean list format, Apple-style clarity.",
+      "content": "8 features (e.g., Application Form Draft, Checklist, Eligibility Guide). Green checkmarks for each item."
+    },
+    "how_it_works": {
+      "layout": "Vertical timeline on mobile, horizontal steps on desktop.",
+      "content": "4 steps: 1. Fill details 2. Pay ₹299 securely 3. Instant Download 4. Apply locally."
+    },
+    "lead_form": {
+      "layout": "Floating soft card.",
+      "content": "Simple Shadcn form: Name, Phone Number. 'Continue to Payment' button."
+    },
+    "payment_section": {
+      "layout": "Razorpay-inspired secure checkout UI.",
+      "content": "Price anchor (₹299). Lock icon. '100% Secure Transaction'. Simulated seamless payment flow."
+    },
+    "faq": {
+      "layout": "Shadcn Accordion.",
+      "content": "Address top objections: Is it a government site? (No), Refund policy? Delivery time?"
+    },
+    "testimonials": {
+      "layout": "Horizontal scroll or grid of soft cards.",
+      "content": "Farmer quotes. Use Yellow stars."
+    },
+    "success_and_download": {
+      "layout": "Centered, distraction-free container.",
+      "content": "Celebration animation. Big prominent 'Download PDF Kit' button. Secured file representation."
+    }
+  },
+  "media": {
+    "hero_farmer_solar": {
+      "url": "https://images.unsplash.com/photo-1509391366360-2e959784a276?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2NzF8MHwxfHNlYXJjaHwxfHxmYXJtZXIlMjBzb2xhciUyMHBhbmVsc3xlbnwwfHx8fDE3ODM0OTUzOTZ8MA&ixlib=rb-4.1.0&q=85",
+      "alt": "Farmer with solar panels on green field",
+      "usage": "Main hero section image, rounded corners, soft shadow"
+    },
+    "documents_preview": {
+      "url": "https://images.unsplash.com/photo-1562240020-ce31ccb0fa7d?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA1NTN8MHwxfHNlYXJjaHwyfHxvZmZpY2lhbCUyMGRvY3VtZW50c3xlbnwwfHx8fDE3ODM0OTUzOTd8MA&ixlib=rb-4.1.0&q=85",
+      "alt": "Pile of printing papers representing the document kit",
+      "usage": "Use in 'What's Included' or 'Download' section"
+    },
+    "solar_farm_bg": {
+      "url": "https://images.unsplash.com/photo-1497435334941-8c899ee9e8e9?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2NzF8MHwxfHNlYXJjaHwyfHxmYXJtZXIlMjBzb2xhciUyMHBhbmVsc3xlbnwwfHx8fDE3ODM0OTUzOTZ8MA&ixlib=rb-4.1.0&q=85",
+      "alt": "Aerial photography of solar panels",
+      "usage": "Optional background for testimonials or call to action section, use with heavy white/light overlay"
+    }
+  },
+  "testing": {
+    "attributes": "Every interactive element MUST have a `data-testid` attribute (e.g., `data-testid=\"hero-cta-button\"`, `data-testid=\"lead-form-phone-input\"`)."
+  },
+  "instructions_to_main_agent": [
+    "Do NOT use HTML <form> or <input> elements directly for complex forms; use Shadcn UI Form and Input components, heavily customized to match the spacing and border radius defined here.",
+    "The target audience is farmers on mobile devices coming from IG Reels. Keep the UI incredibly clean, fonts legible, and primary CTA massive and sticky if possible.",
+    "Implement the Poppins font for headings and Inter for body text.",
+    "In the Hero section, clearly state this is a Document Kit for ₹299 and NOT a government portal.",
+    "Make the cards feel like Razorpay/Groww widgets—clean white backgrounds, 1px subtle borders, and soft spread shadows.",
+    "For icons, use lucide-react with stroke-width 1.5. Use primary Green for success/checkmarks and Blue for information.",
+    "Ensure the entire flow from Hero -> Lead Form -> Payment -> Success -> Download is built as responsive sections or pages.",
+    "Apply Framer Motion for simple fade-up animations on scroll to make the page feel premium."
+  ]
+}
