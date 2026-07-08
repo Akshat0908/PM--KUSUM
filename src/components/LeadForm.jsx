@@ -11,7 +11,7 @@ import { PRODUCT_PRICE_INR, SUPPORT_WHATSAPP } from "@/lib/config";
 
 const STATES = ["Andhra Pradesh","Arunachal Pradesh","Assam","Bihar","Chhattisgarh","Goa","Gujarat","Haryana","Himachal Pradesh","Jharkhand","Karnataka","Kerala","Madhya Pradesh","Maharashtra","Manipur","Meghalaya","Mizoram","Nagaland","Odisha","Punjab","Rajasthan","Sikkim","Tamil Nadu","Telangana","Tripura","Uttar Pradesh","Uttarakhand","West Bengal","Delhi","Jammu and Kashmir","Ladakh","Puducherry","Chandigarh","Andaman and Nicobar Islands","Dadra and Nagar Haveli and Daman and Diu","Lakshadweep"];
 
-const initial = { full_name: "", mobile: "", whatsapp: "", email: "", state: "", district: "", village: "" };
+const initial = { full_name: "", mobile: "", whatsapp: "", email: "", state: "", district: "", village: "", landSize: "", capacity: "", landType: "", landOwnership: "" };
 
 const isValidMobile = (v) => isValidIndianMobile(v);
 
@@ -38,6 +38,10 @@ export default function LeadForm() {
     if (form.email && !isValidEmail(form.email)) e.email = "Invalid email";
     if (!form.state) e.state = "Select state";
     if (!form.district.trim()) e.district = "Enter district";
+    if (!form.landSize) e.landSize = "Select land size";
+    if (!form.capacity) e.capacity = "Select capacity required";
+    if (!form.landType) e.landType = "Select land type";
+    if (!form.landOwnership) e.landOwnership = "Select land ownership";
     setErrors(e);
     return Object.keys(e).length === 0;
   };
@@ -140,6 +144,66 @@ export default function LeadForm() {
           <Field label="Village" hint="Optional">
             <Input data-testid="input-village" value={form.village} onChange={(e) => update("village", e.target.value)} placeholder="Village name" className="rounded-xl h-12 bg-brand-soft border-brand-line" />
           </Field>
+
+          <div className="grid sm:grid-cols-2 gap-4">
+            <Field label="Land Size (Acres)" required error={errors.landSize}>
+              <Select value={form.landSize} onValueChange={(v) => update("landSize", v)}>
+                <SelectTrigger data-testid="select-land-size" className="rounded-xl h-12 bg-brand-soft border-brand-line">
+                  <SelectValue placeholder="Select land size" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="<1" data-testid="land-size-option-<1">Less than 1 acre</SelectItem>
+                  <SelectItem value="1-2" data-testid="land-size-option-1-2">1–2 acres</SelectItem>
+                  <SelectItem value="2-5" data-testid="land-size-option-2-5">2–5 acres</SelectItem>
+                  <SelectItem value="5-10" data-testid="land-size-option-5-10">5–10 acres</SelectItem>
+                  <SelectItem value="10+" data-testid="land-size-option-10+">10+ acres</SelectItem>
+                </SelectContent>
+              </Select>
+            </Field>
+            <Field label="Capacity Required" required error={errors.capacity}>
+              <Select value={form.capacity} onValueChange={(v) => update("capacity", v)}>
+                <SelectTrigger data-testid="select-capacity" className="rounded-xl h-12 bg-brand-soft border-brand-line">
+                  <SelectValue placeholder="Select capacity" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="500kW" data-testid="capacity-option-500kW">500kW</SelectItem>
+                  <SelectItem value="1MW" data-testid="capacity-option-1MW">1MW</SelectItem>
+                  <SelectItem value="1.5MW" data-testid="capacity-option-1.5MW">1.5MW</SelectItem>
+                  <SelectItem value="2MW" data-testid="capacity-option-2MW">2MW</SelectItem>
+                  <SelectItem value="Not Sure" data-testid="capacity-option-NotSure">Not Sure</SelectItem>
+                </SelectContent>
+              </Select>
+            </Field>
+          </div>
+
+          <div className="grid sm:grid-cols-2 gap-4">
+            <Field label="Land Type" required error={errors.landType}>
+              <Select value={form.landType} onValueChange={(v) => update("landType", v)}>
+                <SelectTrigger data-testid="select-land-type" className="rounded-xl h-12 bg-brand-soft border-brand-line">
+                  <SelectValue placeholder="Select land type" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="Agricultural" data-testid="land-type-option-Agricultural">Agricultural</SelectItem>
+                  <SelectItem value="Barren" data-testid="land-type-option-Barren">Barren/Uncultivable</SelectItem>
+                  <SelectItem value="Industrial" data-testid="land-type-option-Industrial">Industrial</SelectItem>
+                  <SelectItem value="Other" data-testid="land-type-option-Other">Other</SelectItem>
+                </SelectContent>
+              </Select>
+            </Field>
+            <Field label="Land Ownership" required error={errors.landOwnership}>
+              <Select value={form.landOwnership} onValueChange={(v) => update("landOwnership", v)}>
+                <SelectTrigger data-testid="select-land-ownership" className="rounded-xl h-12 bg-brand-soft border-brand-line">
+                  <SelectValue placeholder="Select land ownership" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="Own" data-testid="land-ownership-option-Own">Own Land</SelectItem>
+                  <SelectItem value="Leased" data-testid="land-ownership-option-Leased">Leased Land</SelectItem>
+                  <SelectItem value="Shared" data-testid="land-ownership-option-Shared">Shared/Family Land</SelectItem>
+                  <SelectItem value="NotFinalized" data-testid="land-ownership-option-NotFinalized">Not Finalized Yet</SelectItem>
+                </SelectContent>
+              </Select>
+            </Field>
+          </div>
 
           <button
             type="submit"

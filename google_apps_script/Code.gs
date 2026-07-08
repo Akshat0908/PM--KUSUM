@@ -37,6 +37,10 @@ const HEADERS = [
   "State",
   "District",
   "Village",
+  "Land Size (Acres)",
+  "Capacity Required",
+  "Land Type",
+  "Land Ownership",
   "Lead Source",
   "Payment Status"
 ];
@@ -71,6 +75,10 @@ function doPost(e) {
       body["State"]           || "",
       body["District"]        || "",
       body["Village"]         || "",
+      body["landSize"]        || "",
+      body["capacity"]        || "",
+      body["landType"]        || "",
+      body["landOwnership"]   || "",
       body["Lead Source"]     || "Instagram Reel",
       body["Payment Status"]  || "Pending"
     ];
