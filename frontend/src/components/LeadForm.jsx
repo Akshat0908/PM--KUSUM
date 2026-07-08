@@ -6,14 +6,14 @@ import { Loader2, Lock, ShieldCheck, Sparkles, ArrowRight } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { createLead } from "@/lib/api";
-import { PRODUCT_PRICE_INR } from "@/lib/config";
+import { createLead, isValidIndianMobile, isValidEmail } from "@/lib/api";
+import { PRODUCT_PRICE_INR, SUPPORT_WHATSAPP } from "@/lib/config";
 
 const STATES = ["Andhra Pradesh","Arunachal Pradesh","Assam","Bihar","Chhattisgarh","Goa","Gujarat","Haryana","Himachal Pradesh","Jharkhand","Karnataka","Kerala","Madhya Pradesh","Maharashtra","Manipur","Meghalaya","Mizoram","Nagaland","Odisha","Punjab","Rajasthan","Sikkim","Tamil Nadu","Telangana","Tripura","Uttar Pradesh","Uttarakhand","West Bengal","Delhi","Jammu and Kashmir","Ladakh","Puducherry","Chandigarh","Andaman and Nicobar Islands","Dadra and Nagar Haveli and Daman and Diu","Lakshadweep"];
 
 const initial = { full_name: "", mobile: "", whatsapp: "", email: "", state: "", district: "", village: "" };
 
-const isValidMobile = (v) => /^[6-9]\d{9}$/.test((v || "").replace(/\s|-/g, "").replace(/^\+?91/, ""));
+const isValidMobile = (v) => isValidIndianMobile(v);
 
 export default function LeadForm() {
   const [form, setForm] = useState(initial);
@@ -35,7 +35,7 @@ export default function LeadForm() {
     if (!form.full_name.trim() || form.full_name.trim().length < 2) e.full_name = "Enter your full name";
     if (!isValidMobile(form.mobile)) e.mobile = "Enter a valid 10-digit Indian mobile";
     if (form.whatsapp && !isValidMobile(form.whatsapp)) e.whatsapp = "Enter a valid WhatsApp number";
-    if (form.email && !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(form.email)) e.email = "Invalid email";
+    if (form.email && !isValidEmail(form.email)) e.email = "Invalid email";
     if (!form.state) e.state = "Select state";
     if (!form.district.trim()) e.district = "Enter district";
     setErrors(e);
@@ -66,10 +66,14 @@ export default function LeadForm() {
         navigate("/confirm");
       }, 900);
     } catch (err) {
-      // Backend returns 502 with detail "Unable to save your details. Please try again."
-      // when Google Sheets sync fails. Surface it verbatim to the user.
-      const msg = err?.response?.data?.detail || "Unable to save your details. Please try again.";
-      toast.error(typeof msg === "string" ? msg : "Unable to save your details. Please try again.");
+      // Sheets webhook failed or timed out — payload was queued to localStorage
+      // by createLead(). Block redirect, show error, offer WhatsApp fallback.
+      const supportUrl = `https://wa.me/91${SUPPORT_WHATSAPP}?text=${encodeURIComponent(`Hi, my details couldn't be saved. Name: ${form.full_name}, Mobile: ${form.mobile}, State: ${form.state}`)}`;
+      toast.error("Unable to save your details. Please try again.", {
+        description: "If this keeps happening, tap here to send us your details on WhatsApp.",
+        action: { label: "WhatsApp", onClick: () => window.open(supportUrl, "_blank") },
+        duration: 12000,
+      });
       setLoading(false);
       setRedirecting(false);
       setTimeout(() => setSubmitOnceGuard(false), 1500);

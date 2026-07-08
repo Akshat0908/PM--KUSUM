@@ -1,24 +1,9 @@
-// ============================================================
-// Configurable URLs — change these anytime without touching UI
-// ============================================================
-
-// Razorpay Payment Page URL. Swap to your own payment page or a full
-// Razorpay Checkout route later — the UI does not need any change.
-export const PAYMENT_PAGE_URL = "https://rzp.io/rzp/pm-kusum-kit";
-
-// WhatsApp support phone number (used to build wa.me link).
-export const SUPPORT_WHATSAPP = "9251002004";
-
-// Product info
+// Configurable — all in one place. Change here, no UI edits needed.
+export const PAYMENT_PAGE_URL = process.env.REACT_APP_PAYMENT_PAGE_URL || "https://rzp.io/rzp/pm-kusum-kit";
+export const GOOGLE_SHEETS_WEBHOOK_URL = process.env.REACT_APP_GOOGLE_SHEETS_WEBHOOK_URL || "https://script.google.com/macros/s/AKfycbwx89eN0zL2tFM2GZYocGKGA20Ecgsm8YPPguDbVrGbf-8dCJBKqruHGqf6RFeHAVIz/exec";
+export const WEBHOOK_SHARED_SECRET = process.env.REACT_APP_WEBHOOK_SECRET || "pmkusum_change_me";
+export const SUPPORT_WHATSAPP = process.env.REACT_APP_SUPPORT_WHATSAPP || "9251002004";
 export const PRODUCT_PRICE_INR = 299;
 export const PRODUCT_NAME = "PM Kusum Starter Kit";
-
-// What's included in the kit — used by the confirmation page product card.
-export const PRODUCT_INCLUDES = [
-  "Latest PM Kusum Tender",
-  "Complete Document Checklist",
-  "Step-by-Step Application Guide",
-  "Important Dates",
-  "Common Mistakes to Avoid",
-  "Digital Delivery",
-];
+export const PRODUCT_INCLUDES = ["Latest PM Kusum Tender","Complete Document Checklist","Step-by-Step Application Guide","Important Dates","Common Mistakes to Avoid","Digital Delivery"];
+export const WEBHOOK_TIMEOUT_MS = 12000;
