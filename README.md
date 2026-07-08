@@ -1,40 +1,70 @@
-# PM Kusum Document Portal
+# Getting Started with Create React App
 
-Pure static React app. No backend, no database.
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-**Flow:** Instagram Reel → Landing → Lead Form → POST directly to Google Apps Script → row appended to Google Sheet → user redirected to Razorpay Payment Page. Manual WhatsApp/email delivery after payment verification.
+## Available Scripts
 
-## Structure
-```
-/
-└── frontend/          ← Vercel root directory
-    ├── src/
-    ├── public/
-    ├── package.json
-    └── vercel.json    ← SPA fallback + cache headers
-```
+In the project directory, you can run:
 
-## Local dev
-```bash
-cd frontend
-yarn
-yarn start
-```
+### `npm start`
 
-## Deploy to Vercel
-1. Push this repo to GitHub.
-2. vercel.com → **New Project** → import the repo.
-3. **Root Directory:** `frontend`
-4. Framework preset: **Create React App** (auto-detected). Build: `yarn build`. Output: `build`.
-5. Add env vars (Project → Settings → Environment Variables):
-   - `REACT_APP_GOOGLE_SHEETS_WEBHOOK_URL` — your Apps Script Web App URL
-   - `REACT_APP_WEBHOOK_SECRET` — long random string (also set in your Apps Script `SECRET`)
-   - `REACT_APP_PAYMENT_PAGE_URL` — e.g. `https://rzp.io/rzp/pm-kusum-kit`
-   - `REACT_APP_SUPPORT_WHATSAPP` — e.g. `9251002004`
-6. Deploy.
+Runs the app in the development mode.\
+Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
-## Google Apps Script
-Code lives in `/google_apps_script/Code.gs`. Deploy it as a Web App (Execute as: Me, Access: Anyone) and paste the resulting URL into `REACT_APP_GOOGLE_SHEETS_WEBHOOK_URL`. Add the shared-secret check at the top of `doPost(e)` using the value you set in `REACT_APP_WEBHOOK_SECRET`.
+The page will reload when you make changes.\
+You may also see any lint errors in the console.
 
-## Failure safety
-If the Sheets webhook is unreachable, the lead payload is queued to `localStorage` (`pmk_pending_leads`) and the user is shown a WhatsApp fallback CTA with their details pre-filled. No lead is silently lost.
+### `npm test`
+
+Launches the test runner in the interactive watch mode.\
+See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+
+### `npm run build`
+
+Builds the app for production to the `build` folder.\
+It correctly bundles React in production mode and optimizes the build for the best performance.
+
+The build is minified and the filenames include the hashes.\
+Your app is ready to be deployed!
+
+See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+
+### `npm run eject`
+
+**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+
+If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+
+Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+
+You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+
+## Learn More
+
+You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+
+To learn React, check out the [React documentation](https://reactjs.org/).
+
+### Code Splitting
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+
+### Analyzing the Bundle Size
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+
+### Making a Progressive Web App
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+
+### Advanced Configuration
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+
+### Deployment
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+
+### `npm run build` fails to minify
+
+This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
