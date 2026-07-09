@@ -44,7 +44,7 @@ export default function Hero() {
                 data-testid="hero-primary-cta"
                 className="inline-flex items-center gap-2 bg-brand-green hover:bg-brand-greenDark text-white font-medium px-7 py-3.5 rounded-full shadow-glowGreen transition-all active:scale-95"
               >
-                Get My Kit · ₹299
+                Get My Kit · ₹99
                 <Download className="w-4 h-4" strokeWidth={2} />
               </a>
               <a

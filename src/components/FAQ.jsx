@@ -2,7 +2,7 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 
 const items = [
   { q: "What is included in the PM Kusum Kit?", a: "You get the latest tender highlights, a complete document checklist, eligibility summary, application process, important dates, reasons for rejection, tips, and a full FAQ — all in a single PDF." },
-  { q: "How will I receive my kit?", a: "As soon as your ₹299 payment is confirmed, you get an instant download link on the success page. You'll also receive it on your WhatsApp/email." },
+  { q: "How will I receive my kit?", a: "As soon as your ₹99 payment is confirmed, you get an instant download link on the success page. You'll also receive it on your WhatsApp/email." },
   { q: "How often is the kit updated?", a: "Whenever there are tender changes or new circulars, the kit is refreshed. You always receive the most recent version at the time of purchase." },
   { q: "Is this a government website?", a: "No. This is an independent information portal. It is NOT affiliated with any government department. The fee is only for compiling and delivering the document kit." },
   { q: "Who should buy this?", a: "Any farmer, land owner, business or applicant planning to apply for the PM Kusum scheme and wants clarity before starting the process." },

@@ -3,7 +3,7 @@ import { UserRound, Lock, Download, MessageCircle } from "lucide-react";
 
 const steps = [
   { icon: UserRound, title: "Fill Your Details", desc: "A short form to know where to send your kit." },
-  { icon: Lock, title: "Secure Payment", desc: "Pay ₹299 securely via UPI, cards, net banking or wallets." },
+  { icon: Lock, title: "Secure Payment", desc: "Pay ₹99 securely via UPI, cards, net banking or wallets." },
   { icon: Download, title: "Instant Download", desc: "Your PDF is available the moment payment is confirmed." },
   { icon: MessageCircle, title: "WhatsApp & Email Confirmation", desc: "Receive your Order ID and download link on WhatsApp/email." },
 ];

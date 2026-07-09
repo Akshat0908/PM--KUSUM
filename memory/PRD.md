@@ -1,7 +1,7 @@
 # PM Kusum Document Portal — PRD
 
 ## Problem
-Convert Instagram Reel traffic into paid buyers of a ₹299 PM Kusum Tender & Document Kit. Not a government website. Premium, mobile-first, high-trust design inspired by Apple/Razorpay/Groww.
+Convert Instagram Reel traffic into paid buyers of a ₹99 PM Kusum Tender & Document Kit. Not a government website. Premium, mobile-first, high-trust design inspired by Apple/Razorpay/Groww.
 
 ## Users
 - Indian farmers on mobile arriving from Instagram Reels
