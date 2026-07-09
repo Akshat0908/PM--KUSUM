@@ -10,6 +10,7 @@ import FAQ from "@/components/FAQ";
 import Testimonials from "@/components/Testimonials";
 import Footer from "@/components/Footer";
 import Disclaimer from "@/components/Disclaimer";
+import IncomePotential from "@/components/IncomePotential";
 
 export default function LandingPage() {
   useEffect(() => {
@@ -22,6 +23,7 @@ export default function LandingPage() {
       <main>
         <Hero />
         <TrustBar />
+        <IncomePotential />
         <Benefits />
         <WhatsIncluded />
         <HowItWorks />
