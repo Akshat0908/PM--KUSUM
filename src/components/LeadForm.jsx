@@ -89,10 +89,10 @@ export default function LeadForm() {
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-8 sm:mb-10">
           <div className="inline-flex items-center gap-2 bg-brand-green/10 text-brand-green text-xs font-semibold px-3 py-1.5 rounded-full">
-            <Sparkles className="w-3.5 h-3.5" strokeWidth={2} /> Only ₹{PRODUCT_PRICE_INR} · One-time · No subscription
+            <Sparkles className="w-3.5 h-3.5" strokeWidth={2} /> Complete Checklist &amp; Guide
           </div>
-          <h2 className="mt-3 font-heading text-3xl sm:text-4xl font-semibold tracking-tight text-brand-ink">Fill your details &amp; continue to payment</h2>
-          <p className="mt-2 text-brand-slate">Takes under 60 seconds. Kit is delivered on WhatsApp &amp; Email after payment.</p>
+          <h2 className="mt-3 font-heading text-3xl sm:text-4xl font-semibold tracking-tight text-brand-ink">Fill your details &amp; get your kit</h2>
+          <p className="mt-2 text-brand-slate">Takes under 60 seconds. Kit is prepared instantly for delivery on WhatsApp &amp; Email.</p>
         </div>
 
         <motion.form
@@ -216,7 +216,7 @@ export default function LeadForm() {
             ) : redirecting ? (
               <><Loader2 className="w-4 h-4 animate-spin" /> Preparing your kit…</>
             ) : (
-              <><Lock className="w-4 h-4" strokeWidth={2} /> Continue · ₹{PRODUCT_PRICE_INR} <ArrowRight className="w-4 h-4" /></>
+              <><Lock className="w-4 h-4" strokeWidth={2} /> Continue <ArrowRight className="w-4 h-4" /></>
             )}
           </button>
 
